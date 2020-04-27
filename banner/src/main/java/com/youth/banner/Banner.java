@@ -225,10 +225,15 @@ public class Banner<T, BA extends BannerAdapter> extends FrameLayout {
                 } else {
                     mIsViewPager2Drag = distanceY > mTouchSlop && distanceY > distanceX;
                 }
+
+                if(getAdapter()!=null && getAdapter().getRealCount()>1 && interceptWhenMove){
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }else
                 getParent().requestDisallowInterceptTouchEvent(mIsViewPager2Drag);
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+
                 getParent().requestDisallowInterceptTouchEvent(false);
                 break;
         }
@@ -864,5 +869,10 @@ public class Banner<T, BA extends BannerAdapter> extends FrameLayout {
         return this;
     }
 
+    private boolean interceptWhenMove = false;
+    public Banner<T, BA> setInterceptWhenMove(boolean intercept) {
+        interceptWhenMove = intercept;
+        return this;
+    }
 
 }
